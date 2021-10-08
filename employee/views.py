@@ -3,9 +3,9 @@ from .models import Employee
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 from .serializers import (EmployeeListSerializer,
-						  EmployeeDetailSerializer,
-						  EmployeeUpdateSerializer,
-						  ChiefSearchSerializer)
+			  EmployeeDetailSerializer,
+			  EmployeeUpdateSerializer,
+			  ChiefSearchSerializer)
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
