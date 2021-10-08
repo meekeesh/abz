@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{% static 'employee/css/main.css' %}">
+
+	<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+	<div id="header">
+		{% if request.user.is_authenticated %}
+			<nav>
+				Nav bar:
+				<ul>
+					<li><a href="{% url 'show_employee' %}">Employee structure</a></li>
+					<li><a href="{% url 'employee_info' %}">Employee information</a></li>
+				</ul>
+			</nav>
+			<div>
+				Hello, {{ request.user.username }}<br>
+				<a href="{% url 'logout' %}">Logout</a>
+			</div>
+		{% else %}
+			Hello, guest<br>
+			<a href="{% url 'login' %}">Log-in</a>
+		{% endif %}
+	</div>
+	{% block content %}{% endblock %}
+</body>
+</html>

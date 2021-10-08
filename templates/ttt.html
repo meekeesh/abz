@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit record{% endblock %}
+
+{% block content %}
+<h1 class='info_text'>Edit record</h1>
+
+    <table>
+    	<thead>
+    		<tr>
+    			<th>
+    			</th>
+    			<th>
+    				CURRENT DATA
+    			</th>
+    			<th>
+    				FIELDS FOR EDITING
+    			</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<tr>
+    			<th>
+    				NAME:
+    			</th>
+    			<th>
+    				{{employee.name}}
+    			</th>
+    			<th>
+    				<input type="text">
+    			</th>
+    		</tr>
+    		<tr>
+    			<th>
+    				POSITION:
+    			</th>
+    			<th>
+    				{{employee.position}}
+    			</th>
+    			<th>
+    				<input type="text">
+    			</th>
+    		</tr>
+    		<tr>
+    			<th>
+    				SALARY:
+    			</th>
+    			<th>
+    				{{employee.salary}}
+    			</th>
+    			<th>
+    				<input type="text">
+    			</th>
+    		</tr>
+    		<tr>
+    			<th>
+    				CHIEF:
+    			</th>
+    			<th>
+    				{% if chief == 'None' %}
+    					None
+    				{% else %}
+    					<a href="{% url 'detail' chief.id %}">{{chief}}</a>
+    				{% endif %}
+    			</th>
+    			<th class='chief'>
+    				<input type="text" onkeyup="getName()" onclick="getName()">
+                    <div id="result"></div>
+
+                    <div id="autocomplete" class="autocomplete">
+                        <input class="autocomplete-input" />
+                        <ul class="autocomplete-result-list"></ul>
+                    </div>
+    			</th>
+    		</tr>
+    		<tr>
+    			<th>
+    				EMPLOYMENT DATE:
+    			</th>
+    			<th>
+    				{{ employee.employment_date}}
+    			</th>
+    			<th>
+    				<input type="text">
+    			</th>
+    		</tr>
+    	</tbody>
+    </table>
+
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <script src='{% static "employee/js/chief_search.js" %}'></script>
+{% endblock content %}

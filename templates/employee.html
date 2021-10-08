@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee structure{% endblock %}
+
+{% block content %}
+	{% load mptt_tags %}
+	<div class='main'>
+		<ul>
+			{% recursetree employee %}
+				<li>
+					<div class="node">{{ node.name }} - {{ node.position }}</div>
+					{% if not node.is_leaf_node %}
+						<ul class="children">
+							{{ children }}
+						</ul>
+					{% endif %}
+				</li>
+			{% endrecursetree %}
+		</ul>
+	</div>
+{% endblock %}

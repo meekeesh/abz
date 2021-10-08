@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Employee info{% endblock %}
+
+{% block content %}
+	{% if request.user.is_authenticated %}
+		<table class="table table-sortable">
+			<thead>
+				<tr class="thead_tr">
+					<th>Name</th>
+					<th>Position</th>
+					<th>Employment date</th>
+					<th>Salary</th>
+				</tr>
+				<tr class="thead_search">
+					<th><input class="form-control" type="text" onkeyup="editSearchFields()" placeholder="enter search text..."></th>
+					<th><input class="form-control" type="text" onkeyup="editSearchFields()" placeholder="enter search text..."></th>
+					<th><input class="form-control" type="text" onkeyup="editSearchFields()" placeholder="enter search text..."></th>
+					<th><input class="form-control" type="text" onkeyup="editSearchFields()" placeholder="enter search text..."></th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+
+		<script src='{% static "employee/js/search_and_order.js" %}'></script>
+	{% else %}
+		<p class='logout info_text'>This page is only available to registered users.</p>
+	{% endif %}
+{% endblock %}

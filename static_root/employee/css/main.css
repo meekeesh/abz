@@ -1,0 +1,38 @@
+body {
+	background: #1c1c1c;
+}
+
+ul {
+	list-style: none;
+}
+
+ul li {
+	display: block;
+}
+
+tr{
+	color: #f80;
+}
+
+.main {
+	margin-top: 20px;
+}
+
+.node{
+	float:left;
+	color: #f80;
+	margin-left: 300px;
+	margin-right: 500px;
+	margin-bottom: 2px;
+	border: 1px solid #fff;
+	padding: 4px 30px 4px 30px;
+	background: #4a4a4a;
+	transition: background .5s, color .5s, border .5s, transform .5s;
+}
+
+.node:hover {
+	background: #f80;
+	color: #1c1c1c;
+	border: 1px solid #ff4d00;
+	transform: scale(1.05);
+}
