@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework import status
 
 
 def show_employee(request):
@@ -47,9 +48,10 @@ class EmployeeViewSet(ViewSet):
     
 
 	def retrieve(self, request, pk=None):
-		render_classes = [TemplateHTMLRenderer]
-		queryset       = Employee.objects.all()
-		employee       = get_object_or_404(queryset, pk=pk)
+		queryset   = Employee.objects.all()
+		employee   = get_object_or_404(queryset, pk=pk)
+		serializer = EmployeeDetailSerializer(employee)
+		'''
 		serializer     = EmployeeDetailSerializer(employee)
 		try:
 			chief = queryset.get(pk=serializer.data['parent'])
@@ -57,15 +59,27 @@ class EmployeeViewSet(ViewSet):
 			chief = 'None'
 
 		return render(request, 'ttt.html', {'employee': serializer.data, 'chief': chief})
+		'''
+		return Response(serializer.data)
+		
 
 
-	def partial_update(self, request, pk=None):
-		queryset = Employee.objects.all()
-		employee = get_object_or_404(queryset, pk=pk)
-		serializer = EmployeeUpdateSerializer(employee, data=request.data, partial=True)
+	def partial_update(self, request, pk=None, *args, **kwargs):
+		employee = Employee.objects.get(pk=pk)
+		data     = request.data
 
-		serializer.is_valid(raise_exception=True)
-		serializer.save()
+		employee.name            = data.get('name', employee.name)
+		employee.position        = data.get('position', employee.position)
+		employee.employment_date = data.get('employment_date', employee.employment_date)
+		employee.salary          = data.get('salary', employee.salary)
+		if data.get('parent'):
+			parent = Employee.objects.get(pk=data.get('parent'))
+			employee.parent = parent
+		else:
+			employee.parent = employee.parent
+
+		employee.save()
+		serializer = EmployeeUpdateSerializer(employee)
 
 		return Response(serializer.data)
 
@@ -74,7 +88,7 @@ class ChiefSearchAPI(APIView):
 	def get(self, request):
 		search_name = request.query_params['name']
 
-		queryset = Employee.objects.filter(name__icontains = search_name)
+		queryset = Employee.objects.filter(name__icontains = search_name)[:10]
 		serializer = ChiefSearchSerializer(queryset, many=True)
 
 		return Response(serializer.data)

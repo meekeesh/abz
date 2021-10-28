@@ -20,74 +20,73 @@
     		</tr>
     	</thead>
     	<tbody>
-    		<tr>
-    			<th>
-    				NAME:
-    			</th>
-    			<th>
-    				{{employee.name}}
-    			</th>
-    			<th>
-    				<input type="text">
-    			</th>
-    		</tr>
-    		<tr>
-    			<th>
-    				POSITION:
-    			</th>
-    			<th>
-    				{{employee.position}}
-    			</th>
-    			<th>
-    				<input type="text">
-    			</th>
-    		</tr>
-    		<tr>
-    			<th>
-    				SALARY:
-    			</th>
-    			<th>
-    				{{employee.salary}}
-    			</th>
-    			<th>
-    				<input type="text">
-    			</th>
-    		</tr>
-    		<tr>
-    			<th>
-    				CHIEF:
-    			</th>
-    			<th>
-    				{% if chief == 'None' %}
-    					None
-    				{% else %}
-    					<a href="{% url 'detail' chief.id %}">{{chief}}</a>
-    				{% endif %}
-    			</th>
-    			<th class='chief'>
-    				<input type="text" onkeyup="getName()" onclick="getName()">
-                    <div id="result"></div>
-
-                    <div id="autocomplete" class="autocomplete">
-                        <input class="autocomplete-input" />
-                        <ul class="autocomplete-result-list"></ul>
-                    </div>
-    			</th>
-    		</tr>
-    		<tr>
-    			<th>
-    				EMPLOYMENT DATE:
-    			</th>
-    			<th>
-    				{{ employee.employment_date}}
-    			</th>
-    			<th>
-    				<input type="text">
-    			</th>
-    		</tr>
+            <form method="PUT">
+        		<tr>
+        			<th>
+        				NAME:
+        			</th>
+        			<th>
+        				{{employee.name}}
+        			</th>
+        			<th>
+        				<input type="text">
+        			</th>
+        		</tr>
+        		<tr>
+        			<th>
+        				POSITION:
+        			</th>
+        			<th>
+        				{{employee.position}}
+        			</th>
+        			<th>
+        				<input type="text">
+        			</th>
+        		</tr>
+        		<tr>
+        			<th>
+        				SALARY:
+        			</th>
+        			<th>
+        				{{employee.salary}}
+        			</th>
+        			<th>
+        				<input type="text">
+        			</th>
+        		</tr>
+        		<tr>
+        			<th>
+        				CHIEF:
+        			</th>
+        			<th>
+        				{% if chief == 'None' %}
+        					None
+        				{% else %}
+        					<a href="{% url 'detail' chief.id %}">{{chief}}</a>
+        				{% endif %}
+        			</th>
+        			<th class='chief'>
+                        <input type="text" list="chief" onkeyup="getName()" onclick="getName()">
+                        <datalist id="chief">
+                            
+                        </datalist>
+        			</th>
+        		</tr>
+        		<tr>
+        			<th>
+        				EMPLOYMENT DATE:
+        			</th>
+        			<th>
+        				{{ employee.employment_date}}
+        			</th>
+        			<th>
+        				<input type="text">
+        			</th>
+        		</tr>
+                <button type="submit">SAVE</button>
+            </form>
     	</tbody>
     </table>
 
-    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
     <script src='{% static "employee/js/chief_search.js" %}'></script>
 {% endblock content %}

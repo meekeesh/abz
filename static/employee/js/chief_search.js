@@ -1,9 +1,5 @@
 const apiURL = 'http://127.0.0.1:8000/chief-set/'
-
 let name = ''
-
-let dropDownList = []
-
 
 function getRequestUrl() {
 	const requestParam = `?name=${name}`
@@ -14,16 +10,22 @@ function getRequestUrl() {
 
 function chiefQueryset() {
 	const url = getRequestUrl()
+	document.getElementsByTagName("datalist")[0].innerHTML = ''
+
 	fetch(url)
 		.then(response => response.json())
 		.then(data => {
 			data.map(el => {
-			dropDownList.push(el.name)
+				console.log(el.name)
+				document.getElementsByTagName("datalist")[0].innerHTML += 
+				`
+					<option value="${el.id}">${el.name} - ${el.position}</option>
+				`
+				})
 			})
-		})
 }
 
 function getName() {
-	name = document.querySelector('.chief').children[0].value.replace(/\s/g, '%20')
+	name = document.querySelector('.chief').children[0].value.trim()
 	chiefQueryset()
 }

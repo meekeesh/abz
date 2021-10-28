@@ -31,7 +31,7 @@ def seeder():
 	for i in range(3):
 		first_level_boss = Employee.objects.create(
 													name 			= random.choice(FIRST_NAME) + ' ' + random.choice(LAST_NAME),
-													position 		= 'level 1',
+													position 		= Employee.LVL_1,
 													employment_date = random.choice(['2015', '2016', '2017']) + '-' + random.choice(MOUNTS) + '-' + random.choice(DAYS),
 													salary 			= random.choice([17000, 18000])
 												  )
@@ -39,7 +39,7 @@ def seeder():
 			second_level_boss = Employee.objects.create(
 														parent			= first_level_boss,
 														name 			= random.choice(FIRST_NAME) + ' ' + random.choice(LAST_NAME),
-														position 		= 'level 2',
+														position 		= Employee.LVL_2,
 														employment_date = random.choice(['2017', '2018', '2019']) + '-' + random.choice(MOUNTS) + '-' + random.choice(DAYS),
 														salary 			= random.choice([14000, 15000])
 													   )
@@ -47,7 +47,7 @@ def seeder():
 				third_level_boss = Employee.objects.create(
 															parent			= second_level_boss,
 															name 			= random.choice(FIRST_NAME) + ' ' + random.choice(LAST_NAME),
-															position 		= 'level 3',
+															position 		= Employee.LVL_3,
 															employment_date = random.choice(['2019', '2020']) + '-' + random.choice(MOUNTS) + '-' + random.choice(DAYS),
 															salary 			= random.choice([10000, 12000])
 														  )
@@ -55,7 +55,7 @@ def seeder():
 					fourth_level_boss = Employee.objects.create(
 																parent 			= third_level_boss,
 																name 			= random.choice(FIRST_NAME) + ' ' + random.choice(LAST_NAME),
-																position 		= 'level 4',
+																position 		= Employee.LVL_4,
 																employment_date = random.choice(['2020', '2021']) + '-' + random.choice(MOUNTS) + '-' + random.choice(DAYS),
 																salary 			= random.choice([7000, 8000])
 																)
@@ -63,7 +63,7 @@ def seeder():
 						Employee.objects.create(
 												parent 			= fourth_level_boss,
 												name 			= random.choice(FIRST_NAME) + ' ' + random.choice(LAST_NAME),
-												position 		= 'level 5',
+												position 		= Employee.LVL_5,
 												employment_date = '2021-' + random.choice(MOUNTS) + '-' + random.choice(DAYS),
 												salary 			= random.choice([5000, 6000])
 												)

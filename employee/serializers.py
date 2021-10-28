@@ -12,10 +12,12 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
 		model  = Employee
 		fields = ('name', 'position', 'employment_date',  'salary', 'parent', 'date_added')
 
-class EmployeeUpdateSerializer(serializers.Serializer):
-	pass
+class EmployeeUpdateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model  = Employee
+		fields = ('name', 'position', 'employment_date',  'salary', 'parent')
 
 class ChiefSearchSerializer(serializers.ModelSerializer):
 	class Meta:
 		model  = Employee
-		fields = ('name', 'id')
+		fields = ('name', 'position', 'id')
