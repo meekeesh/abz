@@ -48,7 +48,7 @@ function getParentName(id, url) {
 		})
 }
 
-function submitChanges() {
+async function submitChanges() {
 	let contextData = {
 		name            : document.getElementById('name_input').value,
 		position        : document.getElementById('position_input').value,
@@ -64,7 +64,7 @@ function submitChanges() {
 		}
 	}
 
-	fetch(`${apiInfoURL}${employeePk}`, {
+	await fetch(`${apiInfoURL}${employeePk}`, {
 		method : 'PATCH',
 		credentials: 'same-origin',
 		headers : {
@@ -73,9 +73,10 @@ function submitChanges() {
 		},
 		body: JSON.stringify(filledData)
 	})
-	setTimeout(function(){
-		location.reload();
-	}, 300);
+	//setTimeout(function(){
+	//	location.reload();
+	//}, 300);
+	employeeInfo()
 }
 
 employeeInfo()
