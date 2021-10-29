@@ -3,6 +3,24 @@ const editPageURL = 'http://127.0.0.1:8000/edit_employee_info/'
 const employeePk  = window.location.pathname.split('/')[2]
 
 
+function getCookie(name) {
+	let cookieValue =null
+
+	if (document.cookie && document.cookie != '') {
+		let cookies = document.cookie.split(';')
+
+		for (let el in cookies) {
+			let cookie = cookies[el].trim()
+
+			if (cookie.substring(0, name.length + 1) == (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+				break
+			}
+		}
+	}
+	return cookieValue
+}
+
 function employeeInfo() {	
 	const apiURL = apiInfoURL + employeePk
 
@@ -45,13 +63,19 @@ function submitChanges() {
 			filledData[el] = contextData[el]
 		}
 	}
+
 	fetch(`${apiInfoURL}${employeePk}`, {
 		method : 'PATCH',
+		credentials: 'same-origin',
 		headers : {
-			'Content-Type' : 'application/json'
+			'Content-Type' : 'application/json',
+			'X-CSRFToken': getCookie('csrftoken')
 		},
-		body: filledData
+		body: JSON.stringify(filledData)
 	})
+	setTimeout(function(){
+		location.reload();
+	}, 300);
 }
 
 employeeInfo()
