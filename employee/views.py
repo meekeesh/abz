@@ -2,15 +2,16 @@ from django.shortcuts import render
 from .models import Employee
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
-from .serializers import (EmployeeListSerializer,
-			  EmployeeDetailSerializer,
-			  EmployeeUpdateSerializer,
-			  ChiefSearchSerializer)
+from django.views.generic.detail import DetailView
+from .serializers import (
+						EmployeeListSerializer,
+						EmployeeDetailSerializer,
+						EmployeeUpdateSerializer,
+						ChiefSearchSerializer,
+						ChiefNameSerializer
+						)
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-
-from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework import status
 
 
 def show_employee(request):
@@ -18,6 +19,12 @@ def show_employee(request):
 
 def employee_info(request):
 	return render(request, 'employee_info.html')
+
+class EditInfo(DetailView):
+	model = Employee
+
+def edit_info(request, pk=None):
+	return render(request, 'edit_info.html')
 
 
 class EmployeeViewSet(ViewSet):
@@ -51,15 +58,6 @@ class EmployeeViewSet(ViewSet):
 		queryset   = Employee.objects.all()
 		employee   = get_object_or_404(queryset, pk=pk)
 		serializer = EmployeeDetailSerializer(employee)
-		'''
-		serializer     = EmployeeDetailSerializer(employee)
-		try:
-			chief = queryset.get(pk=serializer.data['parent'])
-		except:
-			chief = 'None'
-
-		return render(request, 'ttt.html', {'employee': serializer.data, 'chief': chief})
-		'''
 		return Response(serializer.data)
 		
 
@@ -92,3 +90,10 @@ class ChiefSearchAPI(APIView):
 		serializer = ChiefSearchSerializer(queryset, many=True)
 
 		return Response(serializer.data)
+
+class ChiefNameAPI(APIView):
+	def get(request, *args, **kwargs):
+		employee = Employee.objects.get(pk=kwargs['pk'])
+		serializer = ChiefNameSerializer(employee)
+		return Response(serializer.data)
+		

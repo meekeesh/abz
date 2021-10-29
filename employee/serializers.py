@@ -21,3 +21,8 @@ class ChiefSearchSerializer(serializers.ModelSerializer):
 	class Meta:
 		model  = Employee
 		fields = ('name', 'position', 'id')
+
+class ChiefNameSerializer(serializers.ModelSerializer):
+	class Meta:
+		model  = Employee
+		fields = ('name',)

@@ -1,4 +1,5 @@
-const apiURL = 'http://127.0.0.1:8000/employee-set/'
+const editPageURL = 'http://127.0.0.1:8000/edit_employee_info/'
+const apiURL      = 'http://127.0.0.1:8000/employee-set/'
 
 let name     = ''
 let position = ''
@@ -31,7 +32,7 @@ function addTableRows() {
 						<td>${el.position}</td>
 						<td>${el.employment_date}</td>
 						<td>${el.salary}</td>
-						<td><a href="${apiURL+el.id}">Edit</a></td>
+						<td><a href="${editPageURL+el.id}">Edit</a></td>
 						<td><a href="#">Delete</a></td>
 					</tr>
 				`

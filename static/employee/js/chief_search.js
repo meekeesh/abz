@@ -1,8 +1,8 @@
-const apiURL = 'http://127.0.0.1:8000/chief-set/'
 let name = ''
 
 function getRequestUrl() {
 	const requestParam = `?name=${name}`
+	const apiURL = 'http://127.0.0.1:8000/chief-set/'
 	const requestURL = apiURL + requestParam
 
 	return requestURL
@@ -16,7 +16,6 @@ function chiefQueryset() {
 		.then(response => response.json())
 		.then(data => {
 			data.map(el => {
-				console.log(el.name)
 				document.getElementsByTagName("datalist")[0].innerHTML += 
 				`
 					<option value="${el.id}">${el.name} - ${el.position}</option>
