@@ -22,7 +22,6 @@ class Employee(MPTTModel):
 	employment_date = models.DateField(auto_now_add=False)
 	salary          = models.IntegerField()
 	parent          = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
-	#parent          = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 	date_added      = models.DateField(auto_now_add=True)
 
 	def __str__(self):
