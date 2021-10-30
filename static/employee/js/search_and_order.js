@@ -33,7 +33,7 @@ function addTableRows() {
 						<td>${el.employment_date}</td>
 						<td>${el.salary}</td>
 						<td><a href="${editPageURL+el.id}">Edit</a></td>
-						<td><a href="#">Delete</a></td>
+						<td><a onclick="deleteEmployee(${el.id})" href="#">Delete</a></td>
 					</tr>
 				`
 			})
@@ -70,3 +70,35 @@ document.querySelector('tr.thead_tr').querySelectorAll('th').forEach(headerCell 
 		editOrderField(headerName)
 	})
 })
+
+
+function getCookie(name) {
+	let cookieValue =null
+
+	if (document.cookie && document.cookie != '') {
+		let cookies = document.cookie.split(';')
+
+		for (let el in cookies) {
+			let cookie = cookies[el].trim()
+
+			if (cookie.substring(0, name.length + 1) == (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+				break
+			}
+		}
+	}
+	return cookieValue
+}
+
+async function deleteEmployee(id) {
+	const url = apiURL + id
+
+	await fetch(url, {
+		method : 'DELETE',
+		credentials: 'same-origin',
+		headers : {
+			'Content-Type' : 'application/json',
+			'X-CSRFToken': getCookie('csrftoken')
+		}
+	})
+}

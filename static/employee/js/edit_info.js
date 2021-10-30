@@ -73,9 +73,6 @@ async function submitChanges() {
 		},
 		body: JSON.stringify(filledData)
 	})
-	//setTimeout(function(){
-	//	location.reload();
-	//}, 300);
 	employeeInfo()
 }
 

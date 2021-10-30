@@ -10,7 +10,7 @@ urlpatterns = [
 	path('accounts/', include('django.contrib.auth.urls')),
 
 	path('employee-set/', EmployeeViewSet.as_view({'get': 'list'})),
-	path('employee-set/<int:pk>', EmployeeViewSet.as_view({'get': 'retrieve', 'patch': 'partial_update'}), name = 'detail'),
+	path('employee-set/<int:pk>', EmployeeViewSet.as_view({'get': 'retrieve', 'patch': 'partial_update', 'delete': 'destroy'}), name = 'detail'),
 	path('chief-name/<int:pk>', ChiefNameAPI.as_view()),
 	
 	path('chief-set/', ChiefSearchAPI.as_view()),

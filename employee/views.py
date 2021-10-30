@@ -53,15 +53,12 @@ class EmployeeViewSet(ViewSet):
 		
 		return Response(serializer.data)
     
-
 	def retrieve(self, request, pk=None):
 		queryset   = Employee.objects.all()
 		employee   = get_object_or_404(queryset, pk=pk)
 		serializer = EmployeeDetailSerializer(employee)
 		return Response(serializer.data)
 		
-
-
 	def partial_update(self, request, pk=None, *args, **kwargs):
 		employee = Employee.objects.get(pk=pk)
 		data     = request.data
@@ -80,6 +77,11 @@ class EmployeeViewSet(ViewSet):
 		serializer = EmployeeUpdateSerializer(employee)
 
 		return Response(serializer.data)
+	
+	def destroy(self, request, pk=None, *args, **kwargs):
+		employee = Employee.objects.get(pk=pk)
+		employee.delete()
+		return Response(data='delete success')
 
 
 class ChiefSearchAPI(APIView):
