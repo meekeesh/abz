@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add new employee{% endblock %}
+
+{% block content %}
+	<button type='button' onclick="sendData()">SAVE</button>
+	<table>
+		<tr>
+			<th></th>
+			<th>FIELDS TO FILL</th>
+		</tr>
+		<tr>
+			<th>NAME:</th>
+			<th><input id="name" type="text"></th>
+		</tr>
+		<tr>
+			<th>POSITION:</th>
+			<th><input id="position" type="text"></th>
+		</tr>
+		<tr>
+			<th>SALARY:</th>
+			<th><input id="salary" type="text"></th>
+		</tr>
+		<tr>
+			<th>CHIEF:</th>
+			<th>
+				<input id="chief" list="chief_list" type="text" onkeyup="getName(this.value)">
+				<datalist id="chief_list">
+                            
+                </datalist>
+			</th>
+		</tr>
+		<tr>
+			<th>EMPLOYMENT DATE:</th>
+			<th><input id="employment_date" type="text"></th>
+		</tr>
+	</table>
+
+	<script src='{% static "employee/js/add_employee.js" %}'></script>
+{% endblock %}

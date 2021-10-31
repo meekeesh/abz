@@ -20,11 +20,11 @@ def show_employee(request):
 def employee_info(request):
 	return render(request, 'employee_info.html')
 
-class EditInfo(DetailView):
-	model = Employee
-
 def edit_info(request, pk=None):
 	return render(request, 'edit_info.html')
+
+def add_employee(request):
+	return render(request, 'create_employee.html')
 
 
 class EmployeeViewSet(ViewSet):
@@ -82,6 +82,19 @@ class EmployeeViewSet(ViewSet):
 		employee = Employee.objects.get(pk=pk)
 		employee.delete()
 		return Response(data='delete success')
+
+	def create(self, request):
+		data = self.request.data
+		employee = Employee(
+			name=data['name'],
+			position=data['position'],
+			salary=data['salary'],
+			parent=Employee.objects.get(pk=data['chief']) if data['chief'] else None,
+			employment_date=data['employment_date']
+			)
+		employee.save()
+
+		return Response(data='create success')
 
 
 class ChiefSearchAPI(APIView):
