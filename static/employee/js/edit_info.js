@@ -27,6 +27,7 @@ function employeeInfo() {
 	fetch(apiURL)
 		.then(response => response.json())
 		.then(data => {
+			document.getElementById('photo').innerHTML    = `<img src="${data.photo}">`
 			document.getElementById('name').innerHTML     = data.name
 			document.getElementById('position').innerHTML = data.position
 			document.getElementById('salary').innerHTML   = data.salary

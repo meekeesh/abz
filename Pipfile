@@ -9,6 +9,7 @@ django-mptt = "*"
 django-bootstrap4 = "*"
 djangorestframework = "*"
 django-filter = "*"
+pillow = "*"
 
 [dev-packages]
 

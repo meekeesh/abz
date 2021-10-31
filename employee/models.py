@@ -1,5 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from django.contrib.auth.models import User
+from PIL import Image
 
 
 class Employee(MPTTModel):
@@ -23,9 +25,20 @@ class Employee(MPTTModel):
 	salary          = models.IntegerField()
 	parent          = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
 	date_added      = models.DateField(auto_now_add=True)
+	photo           = models.ImageField(upload_to='media', blank=True)
+
 
 	def __str__(self):
 		return self.name
+
+	def save(self):
+		super().save()
+
+		img = Image.open(self.photo.path)
+
+		img.thumbnail((120, 120))
+		img.save(self.photo.path)
+
 
 	class MPTTMeta:
 		order_insersion_by = ['name']

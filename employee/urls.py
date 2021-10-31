@@ -1,4 +1,6 @@
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import show_employee, employee_info, edit_info, add_employee, EmployeeViewSet, ChiefSearchAPI, ChiefNameAPI
 
 
@@ -16,4 +18,4 @@ urlpatterns = [
 	path('chief-name/<int:pk>', ChiefNameAPI.as_view()),
 	
 	path('chief-set/', ChiefSearchAPI.as_view()),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
