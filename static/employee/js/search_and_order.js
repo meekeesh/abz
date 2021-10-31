@@ -16,12 +16,12 @@ function getRequestUrl() {
 	return requestURL
 }
 
-function addTableRows() {
+async function addTableRows() {
 	const url = getRequestUrl()
 
 	document.getElementsByTagName("tbody")[0].innerHTML = ''
 
-	fetch(url)
+	await fetch(url)
 		.then(response => response.json())
 		.then(data => {
 			data.map(el => {
@@ -32,6 +32,7 @@ function addTableRows() {
 						<td>${el.position}</td>
 						<td>${el.employment_date}</td>
 						<td>${el.salary}</td>
+						<td><img src="${data.photo}"></td>
 						<td><a href="${editPageURL+el.id}">Edit</a></td>
 						<td><a onclick="deleteEmployee(${el.id})" href="#">Delete</a></td>
 					</tr>

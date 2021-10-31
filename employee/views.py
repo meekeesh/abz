@@ -60,7 +60,7 @@ class EmployeeViewSet(ViewSet):
 		serializer = EmployeeDetailSerializer(employee)
 		return Response(serializer.data)
 
-	def partial_update(self, request, pk=None, *args, **kwargs):
+	def partial_update(self, request, pk=None):
 		employee = Employee.objects.get(pk=pk)
 		serializer = EmployeeUpdateSerializer(employee, request.data, partial=True)
 		if serializer.is_valid():
@@ -79,20 +79,6 @@ class EmployeeViewSet(ViewSet):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-'''
-	def create(self, request):
-		data = self.request.data
-		employee = Employee(
-			name=data['name'],
-			position=data['position'],
-			salary=data['salary'],
-			parent=Employee.objects.get(pk=data['chief']) if data['chief'] else None,
-			employment_date=data['employment_date']
-			)
-		employee.save()
-
-		return Response(data='create success')
-'''
 
 class ChiefSearchAPI(APIView):
 	def get(self, request):

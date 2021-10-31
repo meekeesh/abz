@@ -23,18 +23,25 @@ function sendData() {
 		name            : document.getElementById("name").value,
 		position        : document.getElementById("position").value,
 		salary          : document.getElementById("salary").value,
-		parent           : document.getElementById("chief").value,
+		parent          : document.getElementById("chief").value,
 		employment_date : document.getElementById("employment_date").value,
+	}
+
+	const formData = new FormData()
+	for (let el in contextData) {
+		formData.append(el, contextData[el])
+	}
+
+	if (document.querySelector('input[type="file"]').files.length > 0) {
+		formData.append('photo', document.querySelector('input[type="file"]').files[0])
 	}
 
 	fetch(apiURL, {
 		method : "POST",
-		credentials: 'same-origin',
 		headers : {
-			'Content-Type' : 'application/json',
 			'X-CSRFToken': getCookie('csrftoken')
 		},
-		body: JSON.stringify(contextData)
+		body: formData
 	})
 }
 

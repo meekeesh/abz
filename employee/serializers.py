@@ -15,7 +15,7 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
 class EmployeeUpdateSerializer(serializers.ModelSerializer):
 	class Meta:
 		model  = Employee
-		fields = ('name', 'position', 'employment_date',  'salary', 'parent')
+		fields = ('name', 'position', 'employment_date',  'salary', 'photo', 'parent')
 
 class ChiefSearchSerializer(serializers.ModelSerializer):
 	class Meta:

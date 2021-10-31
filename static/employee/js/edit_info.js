@@ -27,7 +27,11 @@ function employeeInfo() {
 	fetch(apiURL)
 		.then(response => response.json())
 		.then(data => {
-			document.getElementById('photo').innerHTML    = `<img src="${data.photo}">`
+			if (data.photo == null) {
+				document.getElementById('photo').innerHTML = 'None'
+			} else {
+				document.getElementById('photo').innerHTML = `<img src="${data.photo}">`
+			}
 			document.getElementById('name').innerHTML     = data.name
 			document.getElementById('position').innerHTML = data.position
 			document.getElementById('salary').innerHTML   = data.salary
@@ -58,21 +62,22 @@ async function submitChanges() {
 		employment_date : document.getElementById('employment_date_input').value,
 	}
 
-	let filledData = {}
+	const formData = new FormData()
+
+	photo = document.querySelector('input[type="file"]').files[0]
+	formData.append('photo', photo)
 	for (let el in contextData) {
 		if (contextData[el] != '') {
-			filledData[el] = contextData[el]
+			formData.append(el, contextData[el])
 		}
 	}
 
 	await fetch(`${apiInfoURL}${employeePk}`, {
 		method : 'PATCH',
-		credentials: 'same-origin',
 		headers : {
-			'Content-Type' : 'application/json',
-			'X-CSRFToken': getCookie('csrftoken')
+			'X-CSRFToken': getCookie('csrftoken'),
 		},
-		body: JSON.stringify(filledData)
+		body: formData
 	})
 	employeeInfo()
 }

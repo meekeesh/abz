@@ -5,8 +5,6 @@ from PIL import Image
 
 
 class Employee(MPTTModel):
-	name = models.CharField(max_length=50)
-
 	LVL_1 = 1
 	LVL_2 = 2
 	LVL_3 = 3
@@ -19,23 +17,23 @@ class Employee(MPTTModel):
 		(LVL_4, 'level 4'),
 		(LVL_5, 'level 5'),
 		]
+
+	name            = models.CharField(max_length=50)
 	position        = models.PositiveSmallIntegerField(choices=POSITIONS, blank=False, default=1)
-	
 	employment_date = models.DateField(auto_now_add=False)
 	salary          = models.IntegerField()
 	parent          = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
 	date_added      = models.DateField(auto_now_add=True)
-	photo           = models.ImageField(upload_to='media', blank=True)
+	photo           = models.ImageField(upload_to='media', null=False, blank=True, default='media/default.png')
 
 
 	def __str__(self):
 		return self.name
 
-	def save(self):
-		super().save()
+	def save(self, *args, **kwargs):
+		super(Employee, self).save(*args, **kwargs)
 
 		img = Image.open(self.photo.path)
-
 		img.thumbnail((120, 120))
 		img.save(self.photo.path)
 
