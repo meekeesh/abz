@@ -11,6 +11,7 @@ from .serializers import (
 						ChiefNameSerializer
 						)
 from rest_framework.response import Response
+from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 
@@ -58,31 +59,27 @@ class EmployeeViewSet(ViewSet):
 		employee   = get_object_or_404(queryset, pk=pk)
 		serializer = EmployeeDetailSerializer(employee)
 		return Response(serializer.data)
-		
+
 	def partial_update(self, request, pk=None, *args, **kwargs):
 		employee = Employee.objects.get(pk=pk)
-		data     = request.data
+		serializer = EmployeeUpdateSerializer(employee, request.data, partial=True)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-		employee.name            = data.get('name', employee.name)
-		employee.position        = data.get('position', employee.position)
-		employee.employment_date = data.get('employment_date', employee.employment_date)
-		employee.salary          = data.get('salary', employee.salary)
-		if data.get('parent'):
-			parent = Employee.objects.get(pk=data.get('parent'))
-			employee.parent = parent
-		else:
-			employee.parent = employee.parent
-
-		employee.save()
-		serializer = EmployeeUpdateSerializer(employee)
-
-		return Response(serializer.data)
-	
 	def destroy(self, request, pk=None, *args, **kwargs):
 		employee = Employee.objects.get(pk=pk)
 		employee.delete()
-		return Response(data='delete success')
+		return Response(status=status.HTTP_204_NO_CONTENT)
 
+	def create(self, request):
+		serializer = EmployeeUpdateSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
 	def create(self, request):
 		data = self.request.data
 		employee = Employee(
@@ -95,7 +92,7 @@ class EmployeeViewSet(ViewSet):
 		employee.save()
 
 		return Response(data='create success')
-
+'''
 
 class ChiefSearchAPI(APIView):
 	def get(self, request):

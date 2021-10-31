@@ -23,7 +23,7 @@ function sendData() {
 		name            : document.getElementById("name").value,
 		position        : document.getElementById("position").value,
 		salary          : document.getElementById("salary").value,
-		chief           : document.getElementById("chief").value,
+		parent           : document.getElementById("chief").value,
 		employment_date : document.getElementById("employment_date").value,
 	}
 
