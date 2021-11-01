@@ -28,16 +28,13 @@ async function addTableRows() {
 				tableElements.push(el)
 			})
 		})
-		pagination()
+		pagination(1)
 }
 
-function pagination(index=1) {
+function pagination(index) {
 	const itemsPerPage  = 10
 	const numberOfPages = Math.ceil(tableElements.length / itemsPerPage)
 	let   pageNumber    = index
-	console.log(tableElements.length)
-	console.log(itemsPerPage)
-	console.log(numberOfPages)
 
 	const firstItemIndex = (((pageNumber-1)*itemsPerPage))
 	const lastItemIndex  = (pageNumber != numberOfPages) ? (firstItemIndex+10) : tableElements.length
@@ -60,10 +57,21 @@ function pagination(index=1) {
 
 	document.getElementById("pagination").innerHTML = ''
 	for (i=1; i<=numberOfPages; i++){
-		document.getElementById("pagination").innerHTML +=
-		`
-		<button type='button' onclick="pagination(${i})">${i}</button>
-		`
+		if (i == pageNumber){
+			document.getElementById("pagination").innerHTML +=
+			`
+			<label class="btn btn-secondary active">
+    			<input type="radio" name="options" id="option1" autocomplete="off" checked>${i}
+  			</label>
+			`
+		} else {
+			document.getElementById("pagination").innerHTML +=
+			`
+			<label class="btn btn-secondary" onclick="pagination(${i})">
+    			<input type="radio" name="options" id="option2" autocomplete="off">${i}
+  			</label>
+			`
+		}
 	}
 }
 
@@ -87,7 +95,7 @@ function editOrderField(orderField) {
 }
 
 
-addTableRows(getRequestUrl())
+addTableRows()
 
 
 document.querySelector('tr.thead_tr').querySelectorAll('th').forEach(headerCell => {
@@ -128,4 +136,5 @@ async function deleteEmployee(id) {
 			'X-CSRFToken': getCookie('csrftoken')
 		}
 	})
+	addTableRows()
 }
