@@ -7,6 +7,7 @@ let date     = ''
 let salary   = ''
 
 let orderBy = ''
+let tableElements = []
 
 
 function getRequestUrl() {
@@ -18,27 +19,52 @@ function getRequestUrl() {
 
 async function addTableRows() {
 	const url = getRequestUrl()
-
-	document.getElementsByTagName("tbody")[0].innerHTML = ''
+	tableElements = []
 
 	await fetch(url)
 		.then(response => response.json())
 		.then(data => {
 			data.map(el => {
-				document.getElementsByTagName("tbody")[0].innerHTML += 
-				`
-					<tr class="tbody_tr">
-						<td>${el.name}</td>
-						<td>${el.position}</td>
-						<td>${el.employment_date}</td>
-						<td>${el.salary}</td>
-						<td><img src="${data.photo}"></td>
-						<td><a href="${editPageURL+el.id}">Edit</a></td>
-						<td><a onclick="deleteEmployee(${el.id})" href="#">Delete</a></td>
-					</tr>
-				`
+				tableElements.push(el)
 			})
 		})
+		pagination()
+}
+
+function pagination(index=1) {
+	const itemsPerPage  = 10
+	const numberOfPages = Math.ceil(tableElements.length / itemsPerPage)
+	let   pageNumber    = index
+	console.log(tableElements.length)
+	console.log(itemsPerPage)
+	console.log(numberOfPages)
+
+	const firstItemIndex = (((pageNumber-1)*itemsPerPage))
+	const lastItemIndex  = (pageNumber != numberOfPages) ? (firstItemIndex+10) : tableElements.length
+
+	document.getElementsByTagName("tbody")[0].innerHTML = ''
+	for (i=firstItemIndex; i<lastItemIndex; i++) {
+		document.getElementsByTagName("tbody")[0].innerHTML +=
+		`
+		<tr class="tbody_tr">
+			<td>${tableElements[i].name}</td>
+			<td>${tableElements[i].position}</td>
+			<td>${tableElements[i].employment_date}</td>
+			<td>${tableElements[i].salary}</td>
+			<td><img src="${tableElements[i].photo}"></td>
+			<td><a href="${editPageURL+tableElements[i].id}">Edit</a></td>
+			<td><a onclick="deleteEmployee(${tableElements[i].id})" href="#">Delete</a></td>
+		</tr>
+		`
+	}
+
+	document.getElementById("pagination").innerHTML = ''
+	for (i=1; i<=numberOfPages; i++){
+		document.getElementById("pagination").innerHTML +=
+		`
+		<button type='button' onclick="pagination(${i})">${i}</button>
+		`
+	}
 }
 
 function editSearchFields(index) {
